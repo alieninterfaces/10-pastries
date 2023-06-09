@@ -26,11 +26,12 @@ fetch("./data2.json")
             x *= 100;
             y *= 100;
 
-            //let x = (child.x / 1728) * 100;
-            //let y = (child.y / 1117) * 100;
-            console.log(x, y);
+            let width = child.width / docWidth;
+            width *= 100;
+
             img.style.left = `${x}%`;
             img.style.top = `${y}%`;
+            img.style.width = `${width}%`;
           }
           document.getElementById("section1").appendChild(img);
         }
