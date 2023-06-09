@@ -32,6 +32,7 @@ fetch("./data.json")
           img.style.left = `${x}%`;
           img.style.top = `${y}%`;
           img.style.width = `${width}%`;
+          img.style.minWidth = `${child.width / 2}px`;
           document.getElementById("section1").appendChild(img);
         }
       }
