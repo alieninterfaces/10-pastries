@@ -37,6 +37,9 @@ fetch("./data.json")
         }
       }
     }
+  })
+  .then(() => {
+    run();
   });
 
 fetch("./data2.json")
@@ -77,3 +80,62 @@ fetch("./data2.json")
       }
     }
   });
+
+function run() {
+  // get all elements with class 'up'
+  let elements = document.querySelectorAll("#section1 .img");
+
+  // get the center of the window
+  let centerX = window.innerWidth / 2;
+  let centerY = window.innerHeight / 2;
+
+  let tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#section1",
+      start: "top top", // when the top of the element hits the center of the viewport
+      end: "bottom top", // when the bottom of the element hits the center of the viewport
+      scrub: true, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+    },
+  });
+
+  // animate each element
+  elements.forEach((element) => {
+    // get the element's position
+    let rect = element.getBoundingClientRect();
+    let elementX = rect.left + rect.width / 2;
+    let elementY = rect.top + rect.height / 2;
+
+    // calculate the direction to animate
+    let directionX = elementX - centerX > 0 ? "+=" : "-=";
+    //let directionY = elementY - centerY > 0 ? "+=" : "-=";
+    let directionY = "-=";
+    //let directionY = "+=";
+
+    /*
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: element,
+        start: "top top", // when the top of the element hits the center of the viewport
+        end: "bottom top", // when the bottom of the element hits the center of the viewport
+        scrub: true, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+      },
+    });
+    */
+
+    const goalX = directionX + Math.abs(elementX - centerX);
+    const goalY = directionY + (600 - Math.abs(elementX - centerX));
+    //const goalY = directionY + Math.abs(elementX - centerX);
+
+    // animate the element
+    tl.to(
+      element,
+      {
+        x: goalX,
+        y: goalY,
+        duration: 1, // duration of 1 second
+        ease: "power1.out", // easing function
+      },
+      0
+    );
+  });
+}

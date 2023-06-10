@@ -9,6 +9,7 @@
       section {
         height: 100vh;
         position: relative;
+        overflow: hidden;
       }
 
       .img {
@@ -30,6 +31,19 @@
         background: linear-gradient(103.19deg, #fefae4 14.8%, #fdb6a9 75.77%);
       }
 
+      #candyBg {
+        width: 500px;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-image: url(./assets/section2-bg.png);
+        background-position: right;
+        background-size: 500px;
+        background-repeat: repeat-y;
+        background-attachment: fixed;
+      }
+
       main {
         margin: auto;
         max-width: 1500px;
@@ -47,9 +61,13 @@
           <button>PURCHASE</button>
         </div>
       </section>
-      <section id="section2"></section>
+      <section id="section2">
+        <div id="candyBg"></div>
+      </section>
       <section></section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
