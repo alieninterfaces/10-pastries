@@ -1,11 +1,56 @@
+load("./data.json", 0, "section1", run);
+load("./data2.json", 1, "carousel", run2);
+
+function load(file, num, container, callback) {
+  fetch(file)
+    .then((response) => response.json())
+    .then((data) => {
+      for (let i = 0; i < data.children.length; i++) {
+        const child = data.children[i];
+        const fills = child.fills;
+
+        for (let j = 0; j < fills.length; j++) {
+          const fill = fills[j];
+          const type = fill.type;
+          if (type === "IMAGE") {
+            const img = document.createElement("img");
+            img.src = `data:image/png;base64,${fill.imgBase64}`;
+            img.classList.add("img");
+            img.id = `img${num}_` + (i + 1);
+
+            const docWidth = 1728;
+            const docHeight = 1117;
+
+            let x = child.x / docWidth;
+            let y = child.y / (docHeight + 300);
+
+            x *= 100;
+            y *= 100;
+
+            let width = child.width / docWidth;
+            width *= 100;
+
+            img.style.left = `${x}%`;
+            img.style.top = `${y}%`;
+            img.style.width = `${width}%`;
+            img.style.minWidth = `${child.width / 2}px`;
+            document.getElementById(container).appendChild(img);
+          }
+        }
+      }
+    })
+    .then(() => {
+      callback();
+    });
+}
+
+/*
 //load section1
 fetch("./data.json")
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
     for (let i = 0; i < data.children.length; i++) {
       const child = data.children[i];
-      console.log(child);
       const fills = child.fills;
 
       for (let j = 0; j < fills.length; j++) {
@@ -45,10 +90,8 @@ fetch("./data.json")
 fetch("./data2.json")
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
     for (let i = 0; i < data.children.length; i++) {
       const child = data.children[i];
-      console.log(child);
       const fills = child.fills;
 
       for (let j = 0; j < fills.length; j++) {
@@ -75,11 +118,15 @@ fetch("./data2.json")
           img.style.left = `${x}%`;
           img.style.top = `${y}%`;
           img.style.width = `${width}%`;
-          document.getElementById("section2").appendChild(img);
+          document.getElementById("carousel").appendChild(img);
         }
       }
     }
+  })
+  .then(() => {
+    run2();
   });
+*/
 
 function run() {
   // get all elements with class 'up'
@@ -111,17 +158,6 @@ function run() {
     let directionY = "-=";
     //let directionY = "+=";
 
-    /*
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: element,
-        start: "top top", // when the top of the element hits the center of the viewport
-        end: "bottom top", // when the bottom of the element hits the center of the viewport
-        scrub: true, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-      },
-    });
-    */
-
     const goalX = directionX + Math.abs(elementX - centerX);
     const goalY = directionY + (600 - Math.abs(elementX - centerX));
     //const goalY = directionY + Math.abs(elementX - centerX);
@@ -137,5 +173,50 @@ function run() {
       },
       0
     );
+  });
+}
+
+function run2() {
+  // get the container element
+  let container = document.querySelector("#carousel");
+
+  // get all child elements
+  let children = container.querySelectorAll(".img");
+
+  console.log(container, children);
+  // create a timeline for the container rotation
+  let containerTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: document.body,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+    },
+  });
+
+  // rotate the container 360 degrees as the user scrolls
+  containerTimeline.to(container, {
+    rotation: 360,
+    duration: 1,
+    ease: "none",
+  });
+
+  // create a timeline for each child
+  children.forEach((child) => {
+    let childTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    // rotate the child -360 degrees (opposite direction to the container) as the user scrolls
+    childTimeline.to(child, {
+      rotation: -360,
+      duration: 1,
+      ease: "none",
+    });
   });
 }
