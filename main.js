@@ -1,7 +1,10 @@
-load("./data.json", 0, "section1", run);
-load("./data2.json", 1, "carousel", run2);
+load("./data.json", 0, "#section1", run);
+load("./data2.json", 1, "#carousel", run2);
+load("./data3.json", 2, "#sectionB", run3);
 
 function load(file, num, container, callback) {
+  const parent = document.querySelector(container);
+
   fetch(file)
     .then((response) => response.json())
     .then((data) => {
@@ -18,23 +21,43 @@ function load(file, num, container, callback) {
             img.classList.add("img");
             img.id = `img${num}_` + (i + 1);
 
+            /*
             const docWidth = 1728;
             const docHeight = 1117;
 
             let x = child.x / docWidth;
             let y = child.y / (docHeight + 300);
+            */
+
+            const docWidth = data.absoluteRenderBounds.width;
+            const docHeight = data.absoluteRenderBounds.height;
+
+            const parentWidth = parent.offsetWidth;
+            const parentHeight = parent.offsetHeight;
+
+            console.log(parentWidth, docWidth, parentWidth / docWidth);
+
+            const normalizeScale = parentWidth / docWidth;
+
+            let x = child.x / parentWidth;
+            let y = child.y / parentHeight;
 
             x *= 100;
             y *= 100;
 
-            let width = child.width / docWidth;
+            x *= normalizeScale;
+            y *= normalizeScale;
+
+            let width = child.width / parentWidth;
             width *= 100;
+
+            width *= normalizeScale;
 
             img.style.left = `${x}%`;
             img.style.top = `${y}%`;
             img.style.width = `${width}%`;
             img.style.minWidth = `${child.width / 2}px`;
-            document.getElementById(container).appendChild(img);
+            parent.appendChild(img);
           }
         }
       }
@@ -43,90 +66,6 @@ function load(file, num, container, callback) {
       callback();
     });
 }
-
-/*
-//load section1
-fetch("./data.json")
-  .then((response) => response.json())
-  .then((data) => {
-    for (let i = 0; i < data.children.length; i++) {
-      const child = data.children[i];
-      const fills = child.fills;
-
-      for (let j = 0; j < fills.length; j++) {
-        const fill = fills[j];
-        const type = fill.type;
-        if (type === "IMAGE") {
-          const img = document.createElement("img");
-          img.src = `data:image/png;base64,${fill.imgBase64}`;
-          img.classList.add("img");
-          img.id = "img0" + (i + 1);
-
-          const docWidth = 1728;
-          const docHeight = 1117;
-
-          let x = child.x / docWidth;
-          let y = child.y / (docHeight + 300);
-
-          x *= 100;
-          y *= 100;
-
-          let width = child.width / docWidth;
-          width *= 100;
-
-          img.style.left = `${x}%`;
-          img.style.top = `${y}%`;
-          img.style.width = `${width}%`;
-          img.style.minWidth = `${child.width / 2}px`;
-          document.getElementById("section1").appendChild(img);
-        }
-      }
-    }
-  })
-  .then(() => {
-    run();
-  });
-
-fetch("./data2.json")
-  .then((response) => response.json())
-  .then((data) => {
-    for (let i = 0; i < data.children.length; i++) {
-      const child = data.children[i];
-      const fills = child.fills;
-
-      for (let j = 0; j < fills.length; j++) {
-        const fill = fills[j];
-        const type = fill.type;
-        if (type === "IMAGE") {
-          const img = document.createElement("img");
-          img.src = `data:image/png;base64,${fill.imgBase64}`;
-          img.classList.add("img");
-          img.id = "img2" + (i + 1);
-
-          const docWidth = 1728;
-          const docHeight = 1117;
-
-          let x = child.x / docWidth;
-          let y = child.y / docHeight;
-
-          x *= 100;
-          y *= 100;
-
-          let width = child.width / docWidth;
-          width *= 100;
-
-          img.style.left = `${x}%`;
-          img.style.top = `${y}%`;
-          img.style.width = `${width}%`;
-          document.getElementById("carousel").appendChild(img);
-        }
-      }
-    }
-  })
-  .then(() => {
-    run2();
-  });
-*/
 
 function run() {
   // get all elements with class 'up'
@@ -220,3 +159,5 @@ function run2() {
     });
   });
 }
+
+function run3() {}
