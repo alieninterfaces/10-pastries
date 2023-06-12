@@ -1,6 +1,9 @@
-load("./data.json", 0, "#section1", run);
+load("./data.json", 0, "#section1Bg", run);
 load("./data2.json", 1, "#carousel", run2);
-load("./data3.json", 2, "#sectionB", run3);
+load("./data3.json", 2, "#sectionB", () => run3("#sectionB", ".img"));
+run3("#sectionA", ".circle");
+load("./data4.json", 3, "#sectionC1", () => run3("#sectionC1", ".img"));
+load("./data5.json", 3, "#sectionC2", () => run3("#sectionC2", ".img"));
 
 function load(file, num, container, callback) {
   const parent = document.querySelector(container);
@@ -21,21 +24,11 @@ function load(file, num, container, callback) {
             img.classList.add("img");
             img.id = `img${num}_` + (i + 1);
 
-            /*
-            const docWidth = 1728;
-            const docHeight = 1117;
-
-            let x = child.x / docWidth;
-            let y = child.y / (docHeight + 300);
-            */
-
             const docWidth = data.absoluteRenderBounds.width;
             const docHeight = data.absoluteRenderBounds.height;
 
             const parentWidth = parent.offsetWidth;
             const parentHeight = parent.offsetHeight;
-
-            console.log(parentWidth, docWidth, parentWidth / docWidth);
 
             const normalizeScale = parentWidth / docWidth;
 
@@ -160,4 +153,56 @@ function run2() {
   });
 }
 
-function run3() {}
+function run3(parentSelector, childSelector) {
+  // get the parent element
+  let parent = document.querySelector(parentSelector);
+  const parentRect = parent.getBoundingClientRect();
+
+  // get all child elements
+  let children = parent.querySelectorAll(childSelector);
+
+  // get the center of the parent
+  let centerX = parent.offsetWidth / 2;
+  let centerY = parent.offsetHeight / 2;
+
+  console.log("center", centerX, centerY);
+
+  // animate each child
+  children.forEach((child) => {
+    // get the child's default position
+    let rect = child.getBoundingClientRect();
+    let childX = rect.left + rect.width / 2 - parentRect.left;
+    let childY = rect.top + rect.height / 2 - parentRect.top;
+
+    // calculate the direction to animate
+    let directionX = childX - centerX > 0 ? "+=" : "-=";
+    let directionY = childY - centerY > 0 ? "+=" : "-=";
+
+    const goalX = directionX + Math.abs((childX - centerX) * 10);
+    const goalY = directionY + Math.abs((childY - centerY) * 10);
+
+    // set the child's initial position to be out of the center of the parent
+    gsap.set(child, {
+      x: goalX,
+      y: goalY,
+    });
+
+    // create a timeline for the child
+    let childTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top bottom",
+        end: "bottom bottom",
+        scrub: true,
+      },
+    });
+
+    // animate the child to its default position as the user scrolls
+    childTimeline.to(child, {
+      x: 0,
+      y: 0,
+      duration: 1,
+      ease: "none",
+    });
+  });
+}

@@ -31,6 +31,14 @@
         box-sizing: border-box;
       }
 
+      #section1Bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 100px);
+      }
+
       #section2 {
         height: 654px;
         background: linear-gradient(103.19deg, #fefae4 14.8%, #fdb6a9 75.77%);
@@ -77,6 +85,7 @@
         flex: 1;
         background: linear-gradient(149.24deg, #74f4f0 2.68%, #60d8d8 72.4%);
         position: relative;
+        overflow: hidden;
       }
 
       #sectionC {
@@ -200,6 +209,14 @@
           #e8736e 100%
         );
       }
+
+      #sectionC1 {
+        position: relative;
+      }
+
+      #sectionC2 {
+        position: relative;
+      }
     </style>
   </head>
   <body>
@@ -212,6 +229,7 @@
           </div>
           <button>PURCHASE</button>
         </div>
+        <div id="section1Bg"></div>
       </section>
       <section id="section2">
         <div id="candyBg"></div>
@@ -247,8 +265,8 @@
         </div>
         <div id="sectionB"></div>
         <div id="sectionC">
-          <div>one</div>
-          <div>two</div>
+          <div id="sectionC1"></div>
+          <div id="sectionC2"></div>
         </div>
       </section>
     </main>
