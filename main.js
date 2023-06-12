@@ -30,7 +30,8 @@ function load(file, num, container, callback) {
             const parentWidth = parent.offsetWidth;
             const parentHeight = parent.offsetHeight;
 
-            const normalizeScale = parentWidth / docWidth;
+            const normalizeScaleX = parentWidth / docWidth;
+            const normalizeScaleY = parentHeight / docHeight;
 
             let x = child.x / parentWidth;
             let y = child.y / parentHeight;
@@ -38,13 +39,13 @@ function load(file, num, container, callback) {
             x *= 100;
             y *= 100;
 
-            x *= normalizeScale;
-            y *= normalizeScale;
+            x *= normalizeScaleX;
+            y *= normalizeScaleY;
 
             let width = child.width / parentWidth;
             width *= 100;
 
-            width *= normalizeScale;
+            width *= normalizeScaleX;
 
             img.style.left = `${x}%`;
             img.style.top = `${y}%`;
