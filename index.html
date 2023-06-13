@@ -37,11 +37,99 @@
         left: 0;
         width: 100%;
         height: 100%;
+        pointer-events: none;
+      }
+
+      #section1Content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      #section1Head {
+        display: inline-block;
+        background: #fcfbf4;
+        box-shadow: 1px 4px 4px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 83px;
+
+        padding: 1em;
+        box-sizing: border-box;
+
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+        font-weight: 900;
+        font-size: 40px;
+        line-height: 71px;
+
+        color: #f2636d;
+        margin: 3rem;
+        margin-bottom: 0;
+      }
+
+      #section1Head h1 {
+        margin: 0;
+      }
+
+      #section1Content button {
+        background: #fd8682;
+        box-shadow: 4px 6px 9px 2px rgba(0, 0, 0, 0.39);
+        border-radius: 72px;
+        border: none;
+        padding: 1.5em 2.5em;
+        color: #fff;
+        margin: 3em;
+        cursor: pointer;
+        font-size: 0.7rem;
       }
 
       #section2 {
         height: 654px;
         background: linear-gradient(103.19deg, #fefae4 14.8%, #fdb6a9 75.77%);
+      }
+
+      #section2Content {
+        font-family: "Inter", sans-serif;
+        margin: 3rem 5rem;
+        width: 25%;
+      }
+
+      #section2 h2 {
+        color: #1e9aa1;
+        margin: 0;
+        font-size: 3rem;
+        font-weight: 900;
+      }
+
+      #section2 h3 {
+        color: #1e9aa1;
+        margin: 1em 0;
+        font-size: 0.95rem;
+      }
+
+      #section2 p {
+        font-size: 0.7rem;
+        line-height: 1.5em;
+      }
+
+      #section2 button {
+        background: #fe8082;
+        border-radius: 37px;
+        border: none;
+        padding: 1em 2em;
+        color: white;
+        transition: transform 0.2s ease-in-out;
+        cursor: pointer;
+        margin: 2em 0;
+      }
+
+      #section2 button:hover {
+        transform: scale(1.1);
       }
 
       #candyBg {
@@ -63,6 +151,7 @@
         top: 0;
         width: 100%;
         height: 100%;
+        pointer-events: none;
       }
 
       #carouse .img {
@@ -71,6 +160,7 @@
 
       #section3 {
         height: auto;
+        min-height: 400px;
         display: flex;
       }
 
@@ -217,13 +307,50 @@
       #sectionC2 {
         position: relative;
       }
+
+      .sectionAContent {
+        margin: 10%;
+        display: flex;
+        color: white;
+        border: 2px solid white;
+        border-radius: 37px;
+        font-family: "Inter", sans-serif;
+        font-size: 0.7em;
+        margin-top: 30%;
+      }
+
+      .sectionAGroup1 {
+        display: flex;
+        border-right: 2px solid white;
+        border-radius: 37px;
+        flex: 2;
+        padding: 0.75em 1em;
+      }
+
+      .sectionAGroup2 {
+        flex: 1;
+        padding: 0.75em 1em;
+        text-align: right;
+        line-height: 1em;
+      }
+
+      .sectionAGroup1 div {
+        flex: 1;
+      }
+
+      .sectionCHeader {
+        color: #27787f;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        padding: 25% 17%;
+      }
     </style>
   </head>
   <body>
     <main>
       <section id="section1">
-        <div>
-          <div>
+        <div id="section1Content">
+          <div id="section1Head">
             <h1>CALKLY</h1>
             <h1>COIOILS</h1>
           </div>
@@ -234,7 +361,8 @@
       <section id="section2">
         <div id="candyBg"></div>
         <div id="carousel"></div>
-        <div>
+        <div id="section2Content">
+          <h3>djdjdff</h3>
           <h2>Coaibicki CovyCeor</h2>
           <h3>Chomdmdmsdf a run a</h3>
           <p>
@@ -243,11 +371,18 @@
             fdsasdfasdfaska skd fa ;lsdkfj alskdjf ka ks dfka skd fjaks djf
             aksdfasd asdf asdf asdf asdf
           </p>
+          <button>asdfasdf</button>
         </div>
       </section>
       <section id="section3">
         <div id="sectionA">
-          <div class="sectionAContent">hi</div>
+          <div class="sectionAContent">
+            <div class="sectionAGroup1">
+              <div class="sectionAGroupA">adlfaj aa</div>
+              <div class="sectionAGroupB">basldkf asd</div>
+            </div>
+            <div class="sectionAGroup2">c asldfj asd</div>
+          </div>
           <div class="circleGrid">
             <div class="circle"></div>
             <div class="circle"></div>
@@ -265,8 +400,12 @@
         </div>
         <div id="sectionB"></div>
         <div id="sectionC">
-          <div id="sectionC1"></div>
-          <div id="sectionC2"></div>
+          <div id="sectionC1">
+            <div class="sectionCHeader">hello</div>
+          </div>
+          <div id="sectionC2">
+            <div class="sectionCHeader">hello</div>
+          </div>
         </div>
       </section>
     </main>
