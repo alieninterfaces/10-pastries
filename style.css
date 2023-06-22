@@ -1,8 +1,17 @@
 body {
   margin: 0;
+  background: #446c7c;
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0px 4px 80px rgba(0, 0, 0, 0.5);
 }
 section {
   position: relative;
+  overflow: hidden;
 }
 
 #section1 {
@@ -42,7 +51,7 @@ section {
   font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: bold;
-  font-size: 3.5vw;
+  font-size: min(3.5vw, 3rem);
   line-height: 1.7em;
 
   margin: 3rem;
@@ -286,4 +295,36 @@ section {
     #f98f88 0%,
     #e8736e 100%
   );
+}
+
+@media screen and (max-width: 800px) {
+  #candyBG {
+    display: none;
+  }
+
+  #carousel {
+    display: none;
+  }
+
+  #section2Content {
+    width: auto;
+  }
+
+  #section3 {
+    flex-direction: column;
+  }
+
+  #section3C {
+    display: block;
+  }
+
+  #sectionC1 {
+    display: block;
+    min-height: 800px;
+  }
+
+  #sectionC2 {
+    display: block;
+    min-height: 800px;
+  }
 }
