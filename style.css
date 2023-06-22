@@ -172,10 +172,12 @@ section {
 
 #sectionC1 {
   position: relative;
+  overflow: hidden;
 }
 
 #sectionC2 {
   position: relative;
+  overflow: hidden;
 }
 
 .img {

@@ -1,10 +1,16 @@
 load("./data.json", 0, "header", "#section1Bg", () =>
   animate1("#section1Bg .img")
 );
-load("./data2.json", 1, "section2", "#carousel", animate);
-load("./data3.json", 2, "section3", "#section3B", animate);
-load("./data4.json", 3, "section4", "#sectionC1", animate);
-load("./data5.json", 4, "section5", "#sectionC2", animate);
+load("./data2.json", 1, "section2", "#carousel", () => animate2("#carousel"));
+load("./data3.json", 2, "section3", "#section3B", () =>
+  animate3("#section3B", ".img")
+);
+load("./data4.json", 3, "section4", "#sectionC1", () =>
+  animate3("#sectionC1", ".img")
+);
+load("./data5.json", 4, "section5", "#sectionC2", () =>
+  animate3("#sectionC2", ".img")
+);
 
 function load(url, index, dir, selector, callback) {
   const parent = document.querySelector(selector);
@@ -113,4 +119,102 @@ function animate1(selector) {
     );
   });
 }
+
+function animate2(selector) {
+  // get the container element
+  let container = document.querySelector(selector);
+
+  // get all child elements
+  let children = container.querySelectorAll(".img");
+
+  console.log(container, children);
+  // create a timeline for the container rotation
+  let containerTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: document.body,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+    },
+  });
+
+  // rotate the container 360 degrees as the user scrolls
+  containerTimeline.to(container, {
+    rotation: 360,
+    duration: 1,
+    ease: "none",
+  });
+
+  // create a timeline for each child
+  children.forEach((child) => {
+    let childTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    // rotate the child -360 degrees (opposite direction to the container) as the user scrolls
+    childTimeline.to(child, {
+      rotation: -360,
+      duration: 1,
+      ease: "none",
+    });
+  });
+}
+
+function animate3(selector, childSelector) {
+  // get the parent element
+  let parent = document.querySelector(selector);
+  const parentRect = parent.getBoundingClientRect();
+
+  // get all child elements
+  let children = parent.querySelectorAll(childSelector);
+
+  // get the center of the parent
+  let centerX = parent.offsetWidth / 2;
+  let centerY = parent.offsetHeight / 2;
+
+  // animate each child
+  children.forEach((child) => {
+    // get the child's default position
+    let rect = child.getBoundingClientRect();
+    let childX = rect.left + rect.width / 2 - parentRect.left;
+    let childY = rect.top + rect.height / 2 - parentRect.top;
+
+    // calculate the direction to animate
+    let directionX = childX - centerX > 0 ? "+=" : "-=";
+    let directionY = childY - centerY > 0 ? "+=" : "-=";
+
+    const goalX = directionX + Math.abs((childX - centerX) * 10);
+    const goalY = directionY + Math.abs((childY - centerY) * 10);
+
+    // set the child's initial position to be out of the center of the parent
+    gsap.set(child, {
+      x: goalX,
+      y: goalY,
+    });
+
+    // create a timeline for the child
+    let childTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top bottom",
+        end: "bottom bottom",
+        scrub: true,
+      },
+    });
+
+    // animate the child to its default position as the user scrolls
+    childTimeline.to(child, {
+      x: 0,
+      y: 0,
+      duration: 1,
+      ease: "none",
+    });
+  });
+}
+
 function animate() {}
